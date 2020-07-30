@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Shop.Application.Products.ViewModels
 {
-    public class ProductViewModel
+    public class ProductModel
     {
         public string Name { get; set; }
         public string Description { get; set; }

@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using Shop.Application.Interfaces;
 using Shop.Application.Products;
 using System;
 using System.Collections.Generic;
@@ -10,8 +11,7 @@ namespace Shop.Application.Services
     {
         public static void ConfigureScopedSerivces(this IServiceCollection serviceCollection)
         {
-            serviceCollection.AddScoped<ICreateProduct, CreateProduct>();
-            serviceCollection.AddScoped<IGetProducts, GetProducts>();
+            serviceCollection.AddScoped<IProductService, ProductService>();
         }
     }
 }
