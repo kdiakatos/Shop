@@ -6,8 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 using Shop.Application.Interfaces;
-using Shop.Application.Products;
-using Shop.Application.Products.ViewModels;
+using Shop.Application.Models;
 using Shop.Database;
 
 namespace Shop.UI.Pages
@@ -16,6 +15,7 @@ namespace Shop.UI.Pages
     {
         [BindProperty]
         public ProductModel Product { get; set; }
+
         public IEnumerable<ProductModel> AllProducts { get; set; }
 
         private IProductService _productService;
@@ -25,9 +25,10 @@ namespace Shop.UI.Pages
             _productService = productService;
         }
 
-        public void OnGet()
+        public async Task OnGet()
         {
-            AllProducts = _productService.GetProductsAsync();
+            AllProducts = await  _productService.GetProductsAsync();
+           
         }
 
         public async Task<IActionResult> OnPost()

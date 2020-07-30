@@ -1,44 +1,71 @@
-﻿using Shop.Application.Interfaces;
-using Shop.Application.Products.ViewModels;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
+using Shop.Application.Interfaces;
+using Shop.Application.Models;
 using Shop.Database;
+using Shop.Database.Interfaces;
 using Shop.Domain.Models;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Shop.Application.Services
 {
     public class ProductService : IProductService
     {
-        private ApplicationDbContext _context;
+        private readonly IProductRepository _productRepository;
+        private readonly IMapper _mapper;
 
-        public ProductService(ApplicationDbContext context)
+        public ProductService(IMapper mapper, IProductRepository productRepository)
         {
-            _context = context;
+            _mapper = mapper;
+            _productRepository = productRepository;
         }
 
-        public async Task CreateProductAsync(ProductModel vm)
+        public async Task CreateProductAsync(ProductModel product)
         {
-            _context.Products.Add(new Product
-            {
-                Name = vm.Name,
-                Description = vm.Description,
-                Value = vm.Value
-            });
-
-            await _context.SaveChangesAsync();
+            var result = _mapper.Map<Product>(product);
+            await _productRepository.CreateProductAsync(result);
         }
 
-        public IEnumerable<ProductModel> GetProductsAsync()
+        public async Task<List<ProductModel>> GetProductsAsync()
         {
-            return _context.Products.ToList().Select(x => new ProductModel
-            {
-                Name = x.Name,
-                Description = x.Description,
-                Value = x.Value
-            });
+
+            var ret = await _productRepository.GetProductsAsync();
+            var result = _mapper.Map<List<ProductModel>>(ret);
+            return result;
+
         }
+
+
+
+        //private ApplicationDbContext _context;
+
+        //public ProductService(ApplicationDbContext context)
+        //{
+        //    _context = context;
+        //}
+
+        //public async Task CreateProductAsync(ProductModel vm)
+        //{
+        //    _context.Products.Add(new Product
+        //    {
+        //        Name = vm.Name,
+        //        Description = vm.Description,
+        //        Value = vm.Value
+        //    });
+
+        //    await _context.SaveChangesAsync();
+        //}
+
+        //public IEnumerable<ProductModel> GetProductsAsync()
+        //{
+        //    return _context.Products.ToList().Select(x => new ProductModel
+        //    {
+        //        Name = x.Name,
+        //        Description = x.Description,
+        //        Value = x.Value
+        //    });
+        //}
     }
 }

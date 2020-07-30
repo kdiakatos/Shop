@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -11,6 +12,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Shop.Application.Services;
 using Shop.Database;
+using Shop.UI.Utilities;
 
 namespace Shop.UI
 {
@@ -28,6 +30,7 @@ namespace Shop.UI
         {
             services.AddRazorPages();
             services.ConfigureScopedSerivces();
+            services.AddAutoMapper(typeof(MappingProfiles));
             services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DBConnection")));
         }
 
