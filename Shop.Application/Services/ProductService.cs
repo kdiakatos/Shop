@@ -30,42 +30,27 @@ namespace Shop.Application.Services
 
         public async Task<List<ProductModel>> GetProductsAsync()
         {
-
             var ret = await _productRepository.GetProductsAsync();
             var result = _mapper.Map<List<ProductModel>>(ret);
             return result;
-
         }
 
+        public ProductModel GetProductById(int id)
+        {
+            var get = _productRepository.GetProductById(id);
+            var result = _mapper.Map<ProductModel>(get);
+            return result;
+        }
 
+        public async Task DeleteProduct(int id)
+        {
+            await _productRepository.DeleteProduct(id);
+        }
 
-        //private ApplicationDbContext _context;
-
-        //public ProductService(ApplicationDbContext context)
-        //{
-        //    _context = context;
-        //}
-
-        //public async Task CreateProductAsync(ProductModel vm)
-        //{
-        //    _context.Products.Add(new Product
-        //    {
-        //        Name = vm.Name,
-        //        Description = vm.Description,
-        //        Value = vm.Value
-        //    });
-
-        //    await _context.SaveChangesAsync();
-        //}
-
-        //public IEnumerable<ProductModel> GetProductsAsync()
-        //{
-        //    return _context.Products.ToList().Select(x => new ProductModel
-        //    {
-        //        Name = x.Name,
-        //        Description = x.Description,
-        //        Value = x.Value
-        //    });
-        //}
+        public async Task UpdateProduct(ProductModel product)
+        {
+            var x = _mapper.Map<Product>(product);
+            await _productRepository.UpdateProduct(x);
+        }
     }
 }

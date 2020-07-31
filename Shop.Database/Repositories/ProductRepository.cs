@@ -28,5 +28,24 @@ namespace Shop.Database.Repositories
         {
             return await _context.Products.ToListAsync();
         }
+
+        public async Task DeleteProduct(int id)
+        {
+            var product = _context.Products.FirstOrDefault(x => x.Id == id);
+            _context.Products.Remove(product);
+            await _context.SaveChangesAsync();
+        }
+
+        public Product GetProductById(int id)
+        {
+           return _context.Products.Where(x => x.Id == id).FirstOrDefault();
+        }
+
+        public async Task UpdateProduct(Product product)
+        {
+            var x = _context.Products.FirstOrDefault(x => x.Id == product.Id);
+            _context.Products.Update(x);
+            await _context.SaveChangesAsync();
+        }
     }
 }

@@ -8,5 +8,8 @@ namespace Shop.Application.Interfaces
     {
         Task CreateProductAsync(ProductModel product);
         Task<List<ProductModel>> GetProductsAsync();
+        ProductModel GetProductById(int id);
+        Task DeleteProduct(int id);
+        Task UpdateProduct(ProductModel product);
     }
 }
